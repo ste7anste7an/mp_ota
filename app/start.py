@@ -40,7 +40,7 @@ mqtt_server = '192.168.2.5'
 #EXAMPLE IP ADDRESS
 #mqtt_server = '192.168.1.144'
 client_id = ubinascii.hexlify(machine.unique_id())
-topic_sub = b'notification'
+topic_sub = b'robot/notification'
 topic_pub = b'robot/time/'+client_id
 
 last_message = 0
@@ -51,10 +51,10 @@ counter = 0
 
 def sub_cb(topic, msg):
   print((topic, msg))
-  if topic == b'notification' and msg == b'ntp':
+  if topic == b'robot/notification' and msg == b'ntp':
     print('ESP received hello message')
     ntptime.settime()
-  if topic == b'notification' and msg == b'time':
+  if topic == b'robot/notification' and msg == b'time':
     client.publish(topic_pub+b'/time', ("%d"%((time.time_ns()%1000000000)//1000000)).encode('utf-8'))
 
 def connect_and_subscribe():
